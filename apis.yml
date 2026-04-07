@@ -9,9 +9,9 @@ description: >-
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
+  - Payment Gateway
   - Payments
   - Transactions
-  - Payment Gateway
 url: >-
   https://raw.githubusercontent.com/api-evangelist/authorize-net/refs/heads/main/apis.yml
 created: '2025-02-17'
@@ -27,9 +27,9 @@ apis:
     humanURL: https://developer.authorize.net/
     baseURL: https://api.authorize.net/xml/v1/request.api
     tags:
+      - Payment Gateway
       - Payments
       - Transactions
-      - Payment Gateway
     properties:
       - type: Documentation
         url: https://developer.authorize.net/api/reference/
