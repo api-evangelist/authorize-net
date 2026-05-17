@@ -89,7 +89,7 @@ common:
   url: https://developer.authorize.net/
 - type: Blog
   url: https://developer.authorize.net/blog/
-- type: Sign Up
+- type: SignUp
   url: https://www.authorize.net/sign-up/
 - type: Login
   url: https://account.authorize.net/
@@ -97,13 +97,13 @@ common:
   url: https://www.authorize.net/sign-up/pricing/
 - type: Support
   url: https://support.authorize.net/
-- type: Status
+- type: StatusPage
   url: https://status.authorize.net/
-- type: Terms of Service
+- type: TermsOfService
   url: https://www.authorize.net/company/terms/
-- type: Privacy Policy
+- type: PrivacyPolicy
   url: https://www.authorize.net/company/privacy/
-- type: GitHub Organization
+- type: GitHubOrganization
   url: https://github.com/AuthorizeNet
 - type: SDK
   title: PHP SDK
