@@ -81,6 +81,8 @@ apis:
       - type: Documentation
         url: https://developer.authorize.net/api/reference/features/webhooks.html
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/authorize-net
   - type: Website
     url: https://www.authorize.net/
   - type: Documentation
