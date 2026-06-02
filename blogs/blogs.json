@@ -2,13 +2,13 @@
   "repo": "authorize-net",
   "feeds": [
     {
-      "source": "https://developer.authorize.net/blog/",
-      "feed_url": "",
+      "source": "https://developer.authorize.net/",
+      "feed_url": "https://developer.authorize.net/",
       "title": "",
       "saved": 0,
-      "error": "no_feed"
+      "method": "none"
     }
   ],
-  "fetched": "2026-05-17T20:48:52Z",
+  "fetched": "2026-06-01T23:35:02Z",
   "post_count": 0
 }
