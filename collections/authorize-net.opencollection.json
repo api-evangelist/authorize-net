@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Authorize.Net API",
+    "version": "1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Anet-Merchant-Auth",
+      "value": "{{X-Anet-Merchant-Auth}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Transactions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit an Authorize.Net API request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.authorize.net/xml/v1/request.api",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Authorize.Net uses a single endpoint for all API calls. The desired\noperation is selected via the wrapping request object name in the JSON\n(or XML) body, e.g. `createTransactionRequest` with a nested\n`transactionRequest.transactionType` value such as\n`authCaptureTransaction`, `authOnlyTransaction`,\n`priorAuthCaptureTransaction`, `refundTransaction` or\n`voidTransaction`. Merchant credentials are passed inside the body via\nthe `merchantAuthentication` object (apiLoginID + transactionKey).\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

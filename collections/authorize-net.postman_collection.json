@@ -1,0 +1,172 @@
+{
+  "item": [
+    {
+      "id": "a3c2b6b4-fe52-459f-9655-715f73b7604b",
+      "name": "Transactions",
+      "description": {
+        "content": "Charge, authorize, capture, void and refund transactions.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "aed14761-96cc-40f6-9f79-79eb6efd8bd8",
+          "name": "Submit an Authorize.Net API request",
+          "request": {
+            "name": "Submit an Authorize.Net API request",
+            "description": {
+              "content": "Authorize.Net uses a single endpoint for all API calls. The desired\noperation is selected via the wrapping request object name in the JSON\n(or XML) body, e.g. `createTransactionRequest` with a nested\n`transactionRequest.transactionType` value such as\n`authCaptureTransaction`, `authOnlyTransaction`,\n`priorAuthCaptureTransaction`, `refundTransaction` or\n`voidTransaction`. Merchant credentials are passed inside the body via\nthe `merchantAuthentication` object (apiLoginID + transactionKey).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "xml",
+                "v1",
+                "request.api"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"createTransactionRequest\": {\n    \"merchantAuthentication\": {\n      \"name\": \"<string>\",\n      \"transactionKey\": \"<string>\"\n    },\n    \"transactionRequest\": {\n      \"transactionType\": \"<string>\",\n      \"amount\": \"<string>\",\n      \"payment\": \"<object>\",\n      \"refTransId\": \"<string>\"\n    },\n    \"refId\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fc1d4196-cb27-450e-a3f0-8912738d266a",
+              "name": "API response (JSON or XML)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "xml",
+                    "v1",
+                    "request.api"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Anet-Merchant-Auth",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"createTransactionRequest\": {\n    \"merchantAuthentication\": {\n      \"name\": \"string\",\n      \"transactionKey\": \"string\"\n    },\n    \"transactionRequest\": {\n      \"transactionType\": \"priorAuthCaptureTransaction\",\n      \"amount\": \"string\",\n      \"payment\": {},\n      \"refTransId\": \"string\"\n    },\n    \"refId\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"messages\": {\n    \"resultCode\": \"Ok\",\n    \"message\": [\n      {\n        \"code\": \"string\",\n        \"text\": \"string\"\n      },\n      {\n        \"code\": \"string\",\n        \"text\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "ad6d57ee-3092-4894-a675-4d0643b744d4",
+      "name": "Customer Profiles",
+      "description": {
+        "content": "Stored customer payment profiles.",
+        "type": "text/plain"
+      },
+      "item": [],
+      "event": []
+    },
+    {
+      "id": "c7c9f0b7-99d6-4913-a4e0-d1786f96ce3d",
+      "name": "Reporting",
+      "description": {
+        "content": "Settlement, batch and transaction reporting.",
+        "type": "text/plain"
+      },
+      "item": [],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.authorize.net",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Anet-Merchant-Auth"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "19958c77-7850-4f3c-89c0-84ba4be2bfb3",
+    "name": "Authorize.Net API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Best-effort OpenAPI 3.1 description of the Authorize.Net payments API.\nAuthorize.Net uses a single-endpoint architecture: all operations are POSTed\nto /xml/v1/request.api with the operation selected via a transaction or\nrequest type inside the JSON body. Derived from the public reference at\nhttps://developer.authorize.net/api/reference/.\n\n\nContact Support:\n Name: Authorize.Net Developer Center",
+      "type": "text/plain"
+    }
+  }
+}
