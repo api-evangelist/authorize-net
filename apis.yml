@@ -91,7 +91,7 @@ common:
     url: https://developer.authorize.net/
   - type: Blog
     url: https://developer.authorize.net/blog/
-  - type: SignUp
+  - type: Signup
     url: https://www.authorize.net/sign-up/
   - type: Login
     url: https://account.authorize.net/
@@ -107,22 +107,22 @@ common:
     url: https://www.authorize.net/company/privacy/
   - type: GitHubOrganization
     url: https://github.com/AuthorizeNet
-  - type: SDK
+  - type: SDKs
     title: PHP SDK
     url: https://github.com/AuthorizeNet/sdk-php
-  - type: SDK
+  - type: SDKs
     title: .NET SDK
     url: https://github.com/AuthorizeNet/sdk-dotnet
-  - type: SDK
+  - type: SDKs
     title: Java SDK
     url: https://github.com/AuthorizeNet/sdk-java
-  - type: SDK
+  - type: SDKs
     title: Ruby SDK
     url: https://github.com/AuthorizeNet/sdk-ruby
-  - type: SDK
+  - type: SDKs
     title: Python SDK
     url: https://github.com/AuthorizeNet/sdk-python
-  - type: SDK
+  - type: SDKs
     title: Node.js SDK
     url: https://github.com/AuthorizeNet/sdk-node
   - type: Features
