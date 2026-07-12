@@ -1,0 +1,21 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/authorize-net-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: merchantAuthentication
+  type: apiKey
+  in: header
+  parameter: X-Anet-Merchant-Auth
+  description: |-
+    Authorize.Net does not use HTTP authentication. Instead, every request
+    must include a `merchantAuthentication` object in the JSON/XML body
+    containing the merchant's API Login ID (`name`) and `transactionKey`.
+    This security scheme entry is a placeholder so OpenAPI tooling can model
+    the requirement.
+  sources:
+  - openapi/authorize-net-openapi.yml

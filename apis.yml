@@ -81,6 +81,10 @@ apis:
       - type: Documentation
         url: https://developer.authorize.net/api/reference/features/webhooks.html
 common:
+  - type: DomainSecurity
+    url: security/authorize-net-domain-security.yml
+  - type: Authentication
+    url: authentication/authorize-net-authentication.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/authorize-net
   - type: Website
