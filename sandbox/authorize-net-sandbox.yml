@@ -1,0 +1,117 @@
+generated: '2026-07-14'
+method: searched
+source: https://developer.authorize.net/hello_world/testing_guide.html
+description: >-
+  Authorize.Net's sandbox / test-data surface — the credentials, magic values,
+  and triggers a developer needs to exercise the payment gateway end-to-end
+  without moving real money. Captured verbatim from the Developer Center testing
+  guide. Authorize.Net separates test from production by using a distinct sandbox
+  account (apitest.authorize.net) with its own API Login ID and Transaction Key,
+  rather than by key prefix. There is also a "Test Mode" toggle on any account
+  that returns transaction ID 0 and does not store the transaction; the docs
+  advise leaving the sandbox itself in Live Mode so responses persist and can be
+  inspected.
+docs:
+  - https://developer.authorize.net/hello_world/testing_guide.html
+  - https://developer.authorize.net/hello_world/sandbox.html
+
+modes:
+  - name: sandbox
+    host: https://apitest.authorize.net
+    endpoint: https://apitest.authorize.net/xml/v1/request.api
+    accept_js: https://jstest.authorize.net/v1/Accept.js
+    accept_ui: https://jstest.authorize.net/v3/AcceptUI.js
+    notes: >-
+      A separate sandbox account with its own API Login ID and Transaction Key,
+      created free at developer.authorize.net. Isolated from production. Monthly
+      eCheck test limit is $5,000; the sandbox should stay in Live Mode so test
+      transactions are stored and viewable.
+  - name: production
+    host: https://api.authorize.net
+    endpoint: https://api.authorize.net/xml/v1/request.api
+    accept_js: https://js.authorize.net/v1/Accept.js
+    accept_ui: https://js.authorize.net/v3/AcceptUI.js
+  - name: test_mode
+    notes: >-
+      An account-level toggle (Test Mode) available on live and sandbox accounts.
+      Transactions submitted in Test Mode are NOT stored and return a transaction
+      ID of 0. Set testRequest=true on a single request to test without switching
+      the whole account.
+
+authentication:
+  note: >-
+    All sandbox requests carry a merchantAuthentication object (name = sandbox
+    API Login ID, transactionKey = sandbox Transaction Key) in the request body.
+    See authentication/authorize-net-authentication.yml.
+
+# Card numbers accepted only in the sandbox. Use any expiration date after today
+# and any 3-digit card code (4 digits for American Express) unless testing CVV.
+test_cards:
+  conventions:
+    expiration: Any date after today's date.
+    card_code: Any 3-digit value (4-digit for American Express).
+  numbers:
+    - {brand: American Express, number: '370000000000002'}
+    - {brand: Discover, number: '6011000000000012'}
+    - {brand: JCB, number: '3088000000000017'}
+    - {brand: Diners Club / Carte Blanche, number: '38000000000006'}
+    - {brand: Visa, number: '4007000000027'}
+    - {brand: Visa, number: '4012888818888'}
+    - {brand: Visa, number: '4111111111111111'}
+    - {brand: Mastercard, number: '5424000000000015'}
+    - {brand: Mastercard, number: '2223000010309703'}
+    - {brand: Mastercard, number: '2223000010309711'}
+    - {brand: China UnionPay, number: '6221499053360818'}
+    - {brand: China UnionPay, number: '6262320002000067'}
+    - {brand: China UnionPay, number: '6284480000000008'}
+
+# eCheck.Net testing: use a valid ABA routing number (Federal Reserve list) plus
+# any random checking account number.
+test_echeck:
+  routing: Any valid ABA routing number (from the Federal Reserve E-Payments Routing Directory).
+  account: Any random checking account number.
+  behavior: Transactions under $100 are accepted; transactions over $100 generate declines.
+  monthly_limit: '$5,000'
+
+# Triggers — drive specific gateway responses from otherwise-valid test input.
+triggers:
+  general_decline:
+    field: billTo.zip
+    value: '46282'
+    outcome: Returns transaction response code 2 (Declined).
+  avs_responses:
+    field: billTo.zip
+    description: The billing ZIP code selects the returned AVS result code.
+    values:
+      - {zip: '46201', avs: A}
+      - {zip: '46203', avs: E}
+      - {zip: '46204', avs: G}
+      - {zip: '46205', avs: N}
+      - {zip: '46207', avs: R}
+      - {zip: '46208', avs: S}
+      - {zip: '46209', avs: U}
+      - {zip: '46211', avs: W}
+      - {zip: '46214', avs: X}
+      - {zip: '46217', avs: Z}
+  card_code_responses:
+    field: payment.creditCard.cardCode
+    description: The card code (CVV) value selects the returned CVV result code.
+    values:
+      - {card_code: '900', cvv_result: M, meaning: Match}
+      - {card_code: '901', cvv_result: N, meaning: No Match}
+      - {card_code: '902', cvv_result: P, meaning: Should be on card but was not processed}
+      - {card_code: '903', cvv_result: S, meaning: Not certified}
+      - {card_code: '904', cvv_result: U, meaning: Not processed}
+  partial_authorization:
+    field: billTo.zip
+    values: ['46225', '46226', '46227', '46228']
+    outcome: Trigger specific prepaid-card / partial-authorization responses.
+  account_updater:
+    description: >-
+      Card numbers ending in these four digits produce various Account Updater
+      update/deletion responses in the sandbox.
+    endings: ['0239', '2087', '6814', '6236', '3154', '3020', '8855', '7183']
+
+notes:
+  - Test Mode transactions return transaction ID 0 and are not stored — prefer a sandbox account in Live Mode.
+  - There are no CLI fixtures or time-simulation/test-clock tools; Authorize.Net ships no first-party CLI.

@@ -1,0 +1,119 @@
+generated: '2026-07-14'
+method: searched
+source: https://developer.authorize.net/api/reference/
+description: >-
+  How the Authorize.Net API behaves across every operation — the cross-cutting
+  request/response semantics that OpenAPI does not fully express. Authorize.Net
+  is unusual among modern payment gateways: it exposes a single POST endpoint
+  (/xml/v1/request.api) that accepts either JSON or XML, selects the operation by
+  the wrapping request-object name in the body, and authenticates by embedding
+  merchant credentials in the body rather than in a header. Captured from the
+  Developer Center reference and derived from openapi/authorize-net-openapi.yml.
+docs:
+  - https://developer.authorize.net/api/reference/
+  - https://developer.authorize.net/api/reference/features/authentication.html
+
+base_url: https://api.authorize.net
+sandbox_url: https://apitest.authorize.net
+endpoint: /xml/v1/request.api
+api_style: >-
+  Single-endpoint RPC-over-HTTP. All operations POST to /xml/v1/request.api; the
+  operation is selected by the top-level request object name (e.g.
+  createTransactionRequest, createCustomerProfileRequest,
+  getTransactionDetailsRequest). Both application/json and text/xml are accepted
+  and the response mirrors the request content type.
+
+authentication:
+  scheme: In-body merchantAuthentication object (API Login ID + Transaction Key)
+  fields: {name: API Login ID (<=25 chars), transactionKey: Transaction Key (<=16 chars)}
+  alternatives: A per-session mobile device token, or partner OAuth access tokens, may be used in place of the Transaction Key.
+  note: Authorize.Net does not use an HTTP Authorization header; credentials travel in the request body.
+  detail: authentication/authorize-net-authentication.yml
+  docs: https://developer.authorize.net/api/reference/features/authentication.html
+
+idempotency:
+  supported: partial
+  mechanism: >-
+    No idempotency-key header. Instead, Authorize.Net runs built-in Duplicate
+    Window detection: a transaction with the same amount and payment data
+    submitted within a short window (default ~2 minutes) is rejected with
+    response reason code 11 ("A duplicate transaction has been submitted").
+  duplicate_window: Configurable via the duplicateWindow field (seconds) on the transaction request.
+  client_ref: A merchant-supplied refId echoes back on the response for correlation.
+
+pagination:
+  style: page-number
+  applies_to: Reporting/transaction-detail operations (e.g. getTransactionListRequest, getSettledBatchListRequest, getUnsettledTransactionListRequest).
+  request_params:
+    paging.limit: Max records per page (up to 1000 for many report calls).
+    paging.offset: 1-based page number.
+    sorting.orderBy / sorting.orderDescending: Optional sort controls.
+  response_fields:
+    totalNumInResultSet: Total number of matching records across pages.
+  note: Most transactional operations are single-object and not paginated.
+
+field_expansion:
+  supported: false
+  note: >-
+    No expand[] mechanism. Related objects are fetched with dedicated calls
+    (e.g. getTransactionDetailsRequest after createTransactionRequest). Some
+    read calls accept include flags such as includeIssuerInfo on
+    getCustomerPaymentProfileRequest to return extra fields.
+
+metadata:
+  supported: limited
+  mechanism: >-
+    Free-form merchant fields — refId (echoed correlation id), invoiceNumber,
+    description, po_number, and up to configurable user-defined merchant-defined
+    fields (userFields name/value pairs) on a transaction request.
+
+request_tracing:
+  request_id_header: none
+  mechanism: >-
+    No response-level request-id header (the API is a single POST endpoint). Use
+    the merchant-supplied refId and the returned transId (transaction ID) to
+    correlate and look up a transaction in the Merchant Interface.
+
+versioning:
+  scheme: unversioned / additive
+  detail: >-
+    The endpoint path carries v1 (/xml/v1/request.api) but the API is effectively
+    unversioned — there is no version request header and no dated release trains.
+    Changes are backwards-compatible and additive; new fields are added without
+    breaking existing integrations. The XML schema is published as
+    AnetApiSchema.xsd.
+  changelog: changelog/authorize-net-changelog.yml
+  docs: https://developer.authorize.net/api/changes.html
+
+error_envelope:
+  media_type: application/json (or text/xml)
+  rfc9457: false
+  shape: >-
+    { "messages": { "resultCode": "Ok|Error", "message": [ { "code", "text" } ] },
+    "transactionResponse": { "responseCode", "messages", "errors": [ { "errorCode", "errorText" } ] } }
+  levels:
+    - name: API/request level
+      field: messages.resultCode + messages.message[].code (E00xxx codes)
+    - name: Transaction level
+      field: transactionResponse.responseCode (1 Approved, 2 Declined, 3 Error, 4 Held for Review) + transactionResponse.errors[]
+  detail: errors/authorize-net-problem-types.yml
+  decline_codes: errors/authorize-net-decline-codes.yml
+  docs: https://developer.authorize.net/api/reference/features/errorandresponsecodes.html
+
+rate_limits:
+  signal: No standard 429 or rate-limit response headers are documented.
+  detail: rate-limits/authorize-net-rate-limits.yml
+
+webhooks:
+  transport: REST endpoint (POST) distinct from the main gateway — https://api.authorize.net/rest/v1/webhooks
+  signature_header: X-ANET-Signature
+  verification: HMAC-SHA512 over the raw payload using the configured Signature Key.
+  docs: https://developer.authorize.net/api/reference/features/webhooks.html
+
+other_conventions:
+  - name: Content type
+    detail: JSON requests must omit a UTF-8 BOM; the parser is order-sensitive — fields must appear in the schema-defined order.
+  - name: Amounts
+    detail: Decimal strings (e.g. "19.99"), not integer minor units.
+  - name: Transaction hash
+    detail: transHash (MD5) is deprecated; use transHashSHA2 (HMAC-SHA512) to verify response integrity.

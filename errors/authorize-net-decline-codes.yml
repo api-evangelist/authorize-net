@@ -1,0 +1,63 @@
+generated: '2026-07-14'
+method: searched
+source: https://developer.authorize.net/api/reference/features/errorandresponsecodes.html
+description: >-
+  Authorize.Net's transaction response-reason-code taxonomy — the numeric reasons
+  a transaction is declined, errored, or held. Distinct from the API-level E00xxx
+  error codes captured in errors/authorize-net-problem-types.yml. The overall
+  outcome is signalled by transactionResponse.responseCode (1 Approved, 2
+  Declined, 3 Error, 4 Held for Review); the specific reason is carried in
+  transactionResponse.messages[].code (approved/held) or
+  transactionResponse.errors[].errorCode (declined/error). Buyer-facing messaging
+  is intentionally generic ("This transaction has been declined.") — the numeric
+  reason is for the merchant/integrator, not the cardholder.
+docs:
+  - https://developer.authorize.net/api/reference/features/errorandresponsecodes.html
+  - https://developer.authorize.net/api/reference/responseCodes.html
+  - https://support.authorize.net/knowledgebase/article/KA-04306/en-us
+
+response_codes:
+  '1': Approved
+  '2': Declined
+  '3': Error
+  '4': Held for Review
+
+envelope_field: transactionResponse.responseCode (outcome) + transactionResponse.errors[].errorCode / transactionResponse.messages[].code (reason)
+mask_note: >-
+  All decline reasons surface to the cardholder as the generic "This transaction
+  has been declined." message; the granular reason code is returned only to the
+  merchant integration, not shown to the buyer.
+
+decline_codes:
+  - {code: '2', meaning: This transaction has been declined., action: Cardholder should contact the issuing bank or use another card.}
+  - {code: '3', meaning: This transaction has been declined (error)., action: Review submitted data; cardholder may contact issuer.}
+  - {code: '4', meaning: The transaction was held for review (pickup card / possible fraud)., action: Do not honor; ask for another form of payment.}
+  - {code: '5', meaning: A valid amount is required., action: Submit a valid decimal amount greater than zero.}
+  - {code: '6', meaning: The credit card number is invalid., action: Re-enter a valid card number.}
+  - {code: '7', meaning: The credit card expiration date is invalid., action: Re-enter a valid expiration date.}
+  - {code: '8', meaning: The credit card has expired., action: Use a non-expired card.}
+  - {code: '9', meaning: The ABA (bank routing) code is invalid., action: Correct the eCheck routing number.}
+  - {code: '10', meaning: The account number is invalid., action: Correct the bank account number.}
+  - {code: '11', meaning: A duplicate transaction has been submitted., action: Do not resubmit identical amount + payment data within the duplicate window.}
+  - {code: '12', meaning: An authorization code is required but not present., action: Supply the authCode for a Capture Only transaction.}
+  - {code: '13', meaning: The merchant API Login ID or account is invalid or inactive., action: Verify API Login ID, Transaction Key, and account status.}
+  - {code: '16', meaning: The transaction was not found., action: Use the originating account for the refund/void; verify the transId.}
+  - {code: '17', meaning: The merchant does not accept this type of credit card., action: Enable the card type in the Merchant Profile.}
+  - {code: '19-24', meaning: An error occurred during processing (contact the merchant)., action: Retry; contact Authorize.Net support if it persists.}
+  - {code: '27', meaning: The transaction was declined due to an Address Verification Service (AVS) mismatch., action: Correct the billing address or adjust AVS reject settings.}
+  - {code: '28', meaning: The merchant does not accept this type of credit card., action: Enable the card type in the Merchant Profile.}
+  - {code: '36', meaning: The authorization was approved but settlement failed., action: Void and re-run, or contact the processor.}
+  - {code: '37', meaning: The credit card number is invalid., action: Re-enter a valid card number.}
+  - {code: '39', meaning: Invalid or unsupported currency code., action: Use a supported currency or enable it on the account.}
+  - {code: '40', meaning: This transaction must be encrypted., action: Submit over TLS / via a tokenized (Accept) flow.}
+  - {code: '44', meaning: This transaction was declined by the Card Code (CCV) filter., action: Correct the card code or adjust CCV reject settings.}
+  - {code: '45', meaning: This transaction was declined by the AVS and/or Card Code filter settings., action: Correct AVS/CCV data or adjust filter thresholds.}
+  - {code: '50', meaning: This transaction is awaiting settlement and cannot be refunded., action: Wait until settlement, then refund; or void before settlement.}
+  - {code: '52', meaning: The transaction was authorized but the client could not be notified (relay timeout)., action: Ensure the relay/response server replies within 10 seconds.}
+  - {code: '65', meaning: The transaction was declined because the card code (CCV) did not match merchant-configured reject values., action: Correct the card code or adjust the account CCV settings.}
+  - {code: '66', meaning: The transaction did not meet the gateway security guidelines., action: Provide required fingerprint fields (x_fp_sequence, x_fp_timestamp, x_fp_hash).}
+  - {code: '78', meaning: The card code (CVV2/CVC2/CID) is invalid., action: Re-enter the correct card code.}
+  - {code: '127', meaning: The transaction resulted in an AVS mismatch; the address supplied does not match the billing address of the cardholder., action: Correct the billing address.}
+  - {code: '250', meaning: This transaction was submitted from a blocked IP address., action: Adjust the account IP block filter.}
+  - {code: '251', meaning: This transaction was declined by the Fraud Detection Suite (FDS) filter., action: Review the FDS filter that triggered.}
+  - {code: '254', meaning: This transaction was declined after manual review (held then rejected)., action: Approve/decline in the Merchant Interface review queue.}

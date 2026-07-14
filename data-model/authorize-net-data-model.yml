@@ -1,0 +1,49 @@
+generated: '2026-07-14'
+method: derived
+source: >-
+  Derived from openapi/authorize-net-openapi.yml (request/response envelopes and
+  id-reference fields such as refTransId, customerProfileId,
+  customerPaymentProfileId, subscriptionId) and the Authorize.Net API object
+  reference (developer.authorize.net/api/reference). Authorize.Net exposes a
+  single POST endpoint whose object model is implicit in the request/response
+  types; this is the machine-readable entity-relationship graph behind the
+  payments, customer-vault (CIM), recurring-billing (ARB), and reporting domains.
+docs: https://developer.authorize.net/api/reference/
+notation: >-
+  relationships use has_one / has_many / belongs_to with the foreign-key field
+  name; direction is from the entity that owns the reference. Authorize.Net IDs
+  are opaque numeric strings (no type prefixes), so id_prefix is omitted.
+
+entities:
+  - {name: Merchant, id_field: name (API Login ID), domain: account, description: The merchant account, identified by API Login ID + Transaction Key in merchantAuthentication.}
+  - {name: Transaction, id_field: transId, domain: payments, description: A single charge/authorization/capture/void/refund created by createTransactionRequest.}
+  - {name: Payment, id_field: (embedded), domain: payments, description: The payment instrument on a transaction — creditCard, bankAccount, opaqueData (Accept nonce), or wallet (Apple Pay / Google Pay).}
+  - {name: Batch, id_field: batchId, domain: reporting, description: A settlement batch grouping settled transactions for a processing day.}
+  - {name: CustomerProfile, id_field: customerProfileId, domain: customer-vault, description: A stored customer record (CIM) that owns payment and shipping profiles.}
+  - {name: CustomerPaymentProfile, id_field: customerPaymentProfileId, domain: customer-vault, description: A vaulted payment method (card or bank) belonging to a customer profile.}
+  - {name: CustomerShippingProfile, id_field: customerAddressId, domain: customer-vault, description: A stored shipping address belonging to a customer profile.}
+  - {name: Subscription, id_field: subscriptionId, domain: recurring-billing, description: An Automated Recurring Billing (ARB) schedule that generates recurring transactions.}
+  - {name: Webhook, id_field: webhookId, domain: events, description: A configured event subscription delivering notifications to a merchant endpoint.}
+  - {name: Notification, id_field: notificationId, domain: events, description: A delivered webhook event payload referencing a transaction or subscription.}
+
+relationships:
+  - {from: Merchant, to: Transaction, kind: has_many, via: merchantAuthentication}
+  - {from: Merchant, to: CustomerProfile, kind: has_many, via: merchantAuthentication}
+  - {from: Merchant, to: Subscription, kind: has_many, via: merchantAuthentication}
+  - {from: Merchant, to: Webhook, kind: has_many, via: merchantAuthentication}
+  - {from: Transaction, to: Payment, kind: has_one, via: payment}
+  - {from: Transaction, to: Transaction, kind: belongs_to, via: refTransId}
+  - {from: Transaction, to: Batch, kind: belongs_to, via: batchId}
+  - {from: Transaction, to: CustomerProfile, kind: belongs_to, via: customerProfileId}
+  - {from: Transaction, to: CustomerPaymentProfile, kind: belongs_to, via: customerPaymentProfileId}
+  - {from: Batch, to: Transaction, kind: has_many, via: batchId}
+  - {from: CustomerProfile, to: CustomerPaymentProfile, kind: has_many, via: customerProfileId}
+  - {from: CustomerProfile, to: CustomerShippingProfile, kind: has_many, via: customerProfileId}
+  - {from: CustomerPaymentProfile, to: CustomerProfile, kind: belongs_to, via: customerProfileId}
+  - {from: Subscription, to: CustomerProfile, kind: belongs_to, via: profile.customerProfileId}
+  - {from: Subscription, to: Transaction, kind: has_many, via: subscriptionId}
+  - {from: Webhook, to: Notification, kind: has_many, via: webhookId}
+  - {from: Notification, to: Transaction, kind: belongs_to, via: payload.id}
+  - {from: Notification, to: Subscription, kind: belongs_to, via: payload.id}
+
+interchange_hubs: [Merchant, Transaction, CustomerProfile]

@@ -1,0 +1,31 @@
+generated: '2026-07-14'
+method: searched
+probe: false
+source: https://support.authorize.net/knowledgebase/article/000002490/
+url: https://support.authorize.net/knowledgebase/article/000002490/
+description: >-
+  Authorize.Net's security & compliance posture, captured from the Data Security
+  Compliance knowledge-base article. Authorize.Net is a Visa Solutions / Visa
+  Acceptance (formerly CyberSource / a Visa company) payment gateway and validates
+  its compliance annually via external auditors. Certifications are provided to
+  merchants on request through a Support Case rather than a public trust portal,
+  which is why the automated trust-center probe (which requires a trust.<domain>
+  page) recorded nothing — this is the searched, human-verified fill.
+certifications:
+  - {name: PCI DSS, note: Renewed annually via external security scans; Authorize.Net operates as a PCI-compliant payment gateway / service provider. Level not stated on the public page.}
+  - {name: SSAE-18 (SOC 1), availability: on request via Support Case, cadence: annual, note: Statement on Standards for Attestation Engagements No. 18 report on internal controls; also referred to as SOC 1.}
+  - {name: Sarbanes-Oxley (SOX), cadence: annual, note: Annual validation by external auditors for applicable SOX provisions.}
+compliance_alignment:
+  - {name: HIPAA, note: Compliance validated against applicable federal/state privacy law.}
+  - {name: GLBA, note: Gramm-Leach-Bliley Act.}
+  - {name: California SB 1386, note: State breach-notification law.}
+report_access:
+  soc_reports: SSAE-18 / SOC 1 report provided to merchants on request by submitting a Support Case.
+  pci_verification: PCI compliance verifiable via the Visa Global Registry of Service Providers.
+  partner: Partnered with SecurityMetrics to help merchants validate their own PCI DSS compliance.
+docs:
+  - https://support.authorize.net/knowledgebase/article/000002490/
+  - https://support.authorize.net/knowledgebase/Knowledgearticle/?code=KA-04449
+evidence:
+  - {source: https://support.authorize.net/knowledgebase/article/000002490/, keywords: [pci dss, ssae-18, soc 1, sarbanes-oxley, hipaa, glba]}
+  - {source: 'https://support.authorize.net/knowledgebase/Knowledgearticle/?code=KA-04449', keywords: [visa global registry of service providers, pci compliance]}

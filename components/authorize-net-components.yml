@@ -1,0 +1,54 @@
+generated: '2026-07-14'
+method: searched
+source: https://developer.authorize.net/api/reference/features/acceptjs.html
+description: >-
+  Authorize.Net's client-side / embeddable UI components — the "Accept" suite
+  that renders payment collection in the browser and keeps card data out of the
+  merchant server (reducing PCI scope), distinct from the server-side SDK client
+  libraries catalogued via the SDKs pointers in apis.yml. Grouped into the
+  in-page tokenizer (Accept.js), the hosted lightbox (Accept UI / AcceptUI.js),
+  the fully hosted / iframe form (Accept Hosted), and the hosted customer-profile
+  manager (Accept Customer). All are loaded from the js.authorize.net (production)
+  / jstest.authorize.net (sandbox) hosts.
+docs:
+  - https://developer.authorize.net/api/reference/features/acceptjs.html
+  - https://developer.authorize.net/api/reference/features/accept-hosted.html
+  - https://developer.authorize.net/api/reference/features/customer-profiles.html
+
+libraries:
+  - name: Accept.js
+    production: https://js.authorize.net/v1/Accept.js
+    sandbox: https://jstest.authorize.net/v1/Accept.js
+    purpose: Low-level tokenization library; exchanges raw card/bank data for a one-time payment nonce (opaqueData).
+  - name: AcceptUI.js
+    production: https://js.authorize.net/v3/AcceptUI.js
+    sandbox: https://jstest.authorize.net/v3/AcceptUI.js
+    purpose: Loads the hosted, mobile-optimized lightbox payment form (Accept UI); returns a payment nonce.
+
+families:
+  accept_js:
+    description: >-
+      A JavaScript library that captures payment data and submits it directly to
+      Authorize.Net in exchange for a one-time-use token (payment nonce /
+      opaqueData). The merchant server never touches the PAN. Two workflows —
+      merchant-hosted form (PCI-DSS SAQ A-EP) or the Authorize.Net-hosted lightbox.
+    components:
+      - {name: Accept.js, id: accept-js, description: In-page tokenizer for a merchant-built form; card data never reaches the merchant server (SAQ A-EP).}
+      - {name: Accept UI (AcceptUI.js), id: accept-ui, description: Drop-in hosted lightbox button that collects card number, expiry, CVV and optional billing details and returns a nonce (SAQ A).}
+
+  accept_hosted:
+    description: >-
+      A fully hosted payment page you either redirect the customer to or embed as
+      an iframe within your page. Authorize.Net renders and secures the entire
+      form; the merchant requests a form token via getHostedPaymentPageRequest.
+    components:
+      - {name: Accept Hosted (redirect), id: accept-hosted-redirect, description: Full-page hosted payment form the customer is redirected to.}
+      - {name: Accept Hosted (iframe/lightbox), id: accept-hosted-embed, description: The same hosted form embedded in-page as an iframe or lightbox via a form token.}
+
+  accept_customer:
+    description: >-
+      A hosted interface that lets returning customers manage their stored
+      Customer Information Manager (CIM) payment and shipping profiles, launched
+      via a getHostedProfilePageRequest token. Successor to the legacy Hosted CIM.
+    components:
+      - {name: Accept Customer, id: accept-customer, description: Hosted customer-profile manager for adding/editing stored payment methods without touching card data.}
