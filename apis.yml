@@ -3,7 +3,20 @@ name: Authorize.net
 description: |
   Authorize.net is a leading payment gateway providing secure online payment processing for merchants. It offers a POST-based XML/JSON API, Accept.js hosted payment forms, the Accept Hosted solution, recurring billing (ARB), customer profile management (CIM), advanced fraud detection, and webhooks. Official SDKs are available for PHP, .NET, Java, Ruby, Python, and Node.js.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/authorize-net.png
 tags:
   - Accept.js
   - Credit Cards
@@ -19,68 +32,85 @@ created: '2025-02-17'
 modified: '2026-05-19'
 specificationVersion: '0.19'
 apis:
-  - aid: authorize-net:authorize-net-payment-api
-    name: Authorize.net Payment API
-    description: |
-      The Authorize.net Payment API enables merchants to process credit card, debit card, eCheck, Apple Pay, Google Pay, and PayPal transactions via a POST-based XML/JSON API with API Login ID and Transaction Key authentication.
-    humanURL: https://developer.authorize.net/api/reference/
-    baseURL: https://api.authorize.net/xml/v1/request.api
-    tags:
-      - Credit Cards
-      - eChecks
-      - Payment Gateway
-      - Transactions
-    properties:
-      - type: Documentation
-        url: https://developer.authorize.net/api/reference/
-      - type: GettingStarted
-        url: https://developer.authorize.net/hello_world/
-      - type: Authentication
-        url: https://developer.authorize.net/api/reference/features/authentication.html
-      - type: APIReference
-        url: https://developer.authorize.net/api/reference/
-      - type: Sandbox
-        url: https://sandbox.authorize.net/
-  - aid: authorize-net:authorize-net-recurring-billing-api
-    name: Authorize.net Recurring Billing API
-    description: |
-      The Authorize.net Automated Recurring Billing (ARB) API enables merchants to create, update, and cancel subscription-based payment schedules for recurring charges.
-    humanURL: https://developer.authorize.net/api/reference/features/recurring_billing.html
-    baseURL: https://api.authorize.net/xml/v1/request.api
-    tags:
-      - Payment Gateway
-      - Recurring Billing
-      - Subscriptions
-    properties:
-      - type: Documentation
-        url: https://developer.authorize.net/api/reference/features/recurring_billing.html
-  - aid: authorize-net:authorize-net-customer-profiles-api
-    name: Authorize.net Customer Profiles API
-    description: |
-      The Authorize.net Customer Information Manager (CIM) API enables secure storage and management of customer payment profiles including credit cards and bank accounts for reuse in future transactions.
-    humanURL: https://developer.authorize.net/api/reference/features/customer_profiles.html
-    baseURL: https://api.authorize.net/xml/v1/request.api
-    tags:
-      - Customer Profiles
-      - Payment Gateway
-      - Tokenization
-    properties:
-      - type: Documentation
-        url: https://developer.authorize.net/api/reference/features/customer_profiles.html
-  - aid: authorize-net:authorize-net-webhooks
-    name: Authorize.net Webhooks
-    description: |
-      Authorize.net Webhooks deliver real-time event notifications for transaction, subscription, and fraud management events to merchant-configured HTTP endpoints.
-    humanURL: https://developer.authorize.net/api/reference/features/webhooks.html
-    baseURL: https://api.authorize.net/rest/v1
-    tags:
-      - Events
-      - Payment Gateway
-      - Webhooks
-    properties:
-      - type: Documentation
-        url: https://developer.authorize.net/api/reference/features/webhooks.html
+- aid: authorize-net:authorize-net-payment-api
+  name: Authorize.net Payment API
+  description: >
+    The Authorize.net Payment API enables merchants to process credit card, debit card, eCheck, Apple
+    Pay, Google Pay, and PayPal transactions via a POST-based XML/JSON API with API Login ID and Transaction
+    Key authentication.
+  humanURL: https://developer.authorize.net/api/reference/
+  baseURL: https://api.authorize.net/xml/v1/request.api
+  tags:
+  - Credit Cards
+  - eChecks
+  - Payment Gateway
+  - Transactions
+  properties:
+  - type: Documentation
+    url: https://developer.authorize.net/api/reference/
+  - type: GettingStarted
+    url: https://developer.authorize.net/hello_world/
+  - type: Authentication
+    url: https://developer.authorize.net/api/reference/features/authentication.html
+  - type: APIReference
+    url: https://developer.authorize.net/api/reference/
+  - type: Sandbox
+    url: https://sandbox.authorize.net/
+- aid: authorize-net:authorize-net-recurring-billing-api
+  name: Authorize.net Recurring Billing API
+  description: >
+    The Authorize.net Automated Recurring Billing (ARB) API enables merchants to create, update, and cancel
+    subscription-based payment schedules for recurring charges.
+  humanURL: https://developer.authorize.net/api/reference/features/recurring_billing.html
+  baseURL: https://api.authorize.net/xml/v1/request.api
+  tags:
+  - Payment Gateway
+  - Recurring Billing
+  - Subscriptions
+  properties:
+  - type: Documentation
+    url: https://developer.authorize.net/api/reference/features/recurring_billing.html
+- aid: authorize-net:authorize-net-customer-profiles-api
+  name: Authorize.net Customer Profiles API
+  description: >
+    The Authorize.net Customer Information Manager (CIM) API enables secure storage and management of
+    customer payment profiles including credit cards and bank accounts for reuse in future transactions.
+  humanURL: https://developer.authorize.net/api/reference/features/customer_profiles.html
+  baseURL: https://api.authorize.net/xml/v1/request.api
+  tags:
+  - Customer Profiles
+  - Payment Gateway
+  - Tokenization
+  properties:
+  - type: Documentation
+    url: https://developer.authorize.net/api/reference/features/customer_profiles.html
+- aid: authorize-net:authorize-net-webhooks
+  name: Authorize.net Webhooks
+  description: >
+    Authorize.net Webhooks deliver real-time event notifications for transaction, subscription, and fraud
+    management events to merchant-configured HTTP endpoints.
+  humanURL: https://developer.authorize.net/api/reference/features/webhooks.html
+  baseURL: https://api.authorize.net/rest/v1
+  tags:
+  - Events
+  - Payment Gateway
+  - Webhooks
+  properties:
+  - type: Documentation
+    url: https://developer.authorize.net/api/reference/features/webhooks.html
+- aid: authorize-net:authorize-net-transactions-api
+  name: Authorize.net Transactions API
+  description: Charge, authorize, capture, void and refund transactions.
+  humanURL: https://developer.authorize.net/api/reference/
+  baseURL: https://api.authorize.net/xml/v1/request.api
+  tags:
+  - Transactions
+  properties:
+  - type: OpenAPI
+    url: openapi/authorize-net-transactions-api-openapi.yml
 common:
+  - type: PostmanWorkspace
+    url: https://www.postman.com/kinlaneapi/authorizenet/overview
   - type: AgenticAccess
     url: agentic-access/authorize-net-agentic-access.yml
   - type: DomainSecurity
