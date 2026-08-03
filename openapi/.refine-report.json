@@ -1,0 +1,14 @@
+{
+  "provider": "authorize-net",
+  "sources": [
+    "authorize-net-transactions-api-openapi.yml"
+  ],
+  "outputs": [
+    "authorize-net-transactions-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
