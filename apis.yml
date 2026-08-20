@@ -37,6 +37,15 @@ tags:
   - Payment Gateway
   - Payments
   - Recurring Billing
+  - Transaction
+tags_raw:
+  - Accept.js
+  - Credit Cards
+  - eChecks
+  - Fraud Detection
+  - Payment Gateway
+  - Payments
+  - Recurring Billing
   - Transactions
 url: >-
   https://raw.githubusercontent.com/api-evangelist/authorize-net/refs/heads/main/apis.yml
@@ -53,6 +62,11 @@ apis:
   humanURL: https://developer.authorize.net/api/reference/
   baseURL: https://api.authorize.net/xml/v1/request.api
   tags:
+  - Credit Cards
+  - eChecks
+  - Payment Gateway
+  - Transaction
+  tags_raw:
   - Credit Cards
   - eChecks
   - Payment Gateway
@@ -76,6 +90,10 @@ apis:
   humanURL: https://developer.authorize.net/api/reference/features/recurring_billing.html
   baseURL: https://api.authorize.net/xml/v1/request.api
   tags:
+  - Payment Gateway
+  - Recurring Billing
+  - Subscription
+  tags_raw:
   - Payment Gateway
   - Recurring Billing
   - Subscriptions
@@ -104,6 +122,10 @@ apis:
   humanURL: https://developer.authorize.net/api/reference/features/webhooks.html
   baseURL: https://api.authorize.net/rest/v1
   tags:
+  - Event
+  - Payment Gateway
+  - Webhook
+  tags_raw:
   - Events
   - Payment Gateway
   - Webhooks
@@ -116,6 +138,8 @@ apis:
   humanURL: https://developer.authorize.net/api/reference/
   baseURL: https://api.authorize.net/xml/v1/request.api
   tags:
+  - Transaction
+  tags_raw:
   - Transactions
   properties:
   - type: OpenAPI
